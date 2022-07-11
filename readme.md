@@ -1,8 +1,8 @@
 <p align="center"><a href="https://modulephp.com" target="_blank"><img src="https://modulephp.com/assets/img/logo.webp" width="400"></a></p>
 <p align="center">
-<a href="https://packagist.org/packages/modulephp/framework"><img src="https://img.shields.io/packagist/dt/modulephp/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/modulephp/framework"><img src="https://img.shields.io/packagist/v/modulephp/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/modulephp/framework"><img src="https://img.shields.io/packagist/l/modulephp/framework" alt="License"></a>
+<a href="https://packagist.org/packages/duxtec/modulephp"><img src="https://img.shields.io/packagist/dt/duxtec/modulephp" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/duxtec/modulephp"><img src="https://img.shields.io/packagist/v/duxtec/modulephp" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/duxtec/modulephp"><img src="https://img.shields.io/packagist/l/modulephp/framework" alt="License"></a>
 </p>
 
 
