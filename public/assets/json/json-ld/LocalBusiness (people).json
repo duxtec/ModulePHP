@@ -1,0 +1,78 @@
+{
+  "@context": "http://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://tpereira.com.br",
+  "name": "Thiago Costa Pereira",
+  "affiliation": "UFRJ",
+  "telephone": "+5521989032187",
+  "email": "contato@tpereira.com.br",
+  "description": "ModulePHP creator",
+  "openingHours": ["Mo-Th, Sa 10.00-22.00", "Fr, Su 10.00-12.00"],
+  "currenciesAccepted": "BRL",
+  "priceRange": "$$$",
+  "url": "https://tpereira.com.br",
+  "sameAs": [
+    "https://fb.me/tpereira.com.br/",
+    "https://m.me/tpereira.com.br/",
+    "https://www.instagram.com/tpereira.com.br/",
+    "https://www.linkedin.com/in/tpereira-com-br/",
+    "http://github.com/tpereira-com-br/",
+    "https://codepen.io/tpereira-com-br/"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+55 (21) 98903-2187",
+    "contactType": "customer service",
+    "email": "contato@tpereira.com.br",
+    "availableLanguage": "Portuguese"
+  },
+
+  "knowsAbout": [
+    "Windows",
+    "Linux",
+    "Pacote office",
+    "Corel Draw",
+    "Corel Photo-Paint",
+    "Adobe Illustrator",
+    "Adobe Photoshop",
+    "Adobe Premiere",
+    "Gephi",
+    "VS Code",
+    "Desenvolvimento Back-end",
+    "Desenvolvimento Front-end",
+    "PHP",
+    "Javascript",
+    "MySQL",
+    "Python",
+    "C++",
+    "C",
+    "Batch Script (Windows)",
+    "Shell Script (Linux)",
+    "Julia Lang"
+  ],
+
+  "image": {
+    "@type": "ImageObject",
+    "name": "Thiago Costa Pereira",
+    "url": [
+      "https://avatars3.githubusercontent.com/u/60086620?s=400&amp;u=352b7100e05998de0fb8e145f94ece1efb022be4&amp;v=4",
+      "https://www.tpereira.com.br/img/perfil.webp"
+    ],
+    "caption": "Thiago Costa Pereira"
+  },
+
+  "logo": [
+    {
+      "@type": "ImageObject",
+      "name": "Thiago Costa Pereira",
+      "url": "https://avatars3.githubusercontent.com/u/60086620?s=400&amp;u=352b7100e05998de0fb8e145f94ece1efb022be4&amp;v=4",
+      "caption": "Thiago Costa Pereira"
+    },
+    {
+      "@type": "ImageObject",
+      "name": "Thiago Costa Pereira",
+      "url": "https://www.tpereira.com.br/img/perfil.webp",
+      "caption": "Thiago Costa Pereira"
+    }
+  ]
+}

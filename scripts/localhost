@@ -1,0 +1,25 @@
+<?php
+
+$h = array_search('-h', $argv);
+if ($h) {
+    $h = $argv[$h + 1];
+} else {
+    $h = "0.0.0.0";
+}
+
+$p = array_search('-p', $argv);
+if ($p) {
+    $p = $argv[$p + 1];
+} else {
+    $p = "93";
+}
+
+$r = array_search('-r', $argv);
+if ($r) {
+    $r = $argv[$r + 1];
+} else {
+    $r = dirname(dirname(__FILE__)) . "/public";
+}
+
+$exec = "php -S $h:$p -t $r";
+shell_exec($exec);

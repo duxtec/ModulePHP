@@ -1,0 +1,50 @@
+{
+  "name": "tpereira-com-br/modulephp",
+  "type": "project",
+  "description": "A modular framework for PHP",
+  "keywords": [
+    "PHP",
+    "module",
+    "modular",
+    "framework"
+  ],
+  "license": "GPL-3.0-only",
+  "require": {
+    "php": ">=7.4",
+    "ext-mbstring": "*",
+    "ext-openssl": "*",
+    "monolog/monolog": "^2.6",
+    "nesbot/carbon": "^2.59",
+    "phpmailer/phpmailer": "^6.4",
+    "respect/validation": "^2.2"
+  },
+  "require-dev": {
+    "fakerphp/faker": "^1.19",
+    "mockery/mockery": "^1.4.2",
+    "phpunit/phpunit": "^9.3.3"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "scripts": {
+    "install": [
+      "@php scripts/install"
+    ],
+    "update": [
+      "@php scripts/update"
+    ],
+    "localhost": [
+      "@php scripts/localhost"
+    ],
+    "create-userlevel": [
+      "@php scripts/create-userlevel"
+    ],
+    "delete-userlevel": [
+      "@php scripts/delete-userlevel"
+    ]
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
