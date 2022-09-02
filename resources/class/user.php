@@ -1,27 +1,27 @@
 <?php
+
 namespace ModulePHP;
-use ModulePHP\Database\DB AS DB;
-use ModulePHP\Database\Select AS Select;
-use ModulePHP\Database\Insert AS Insert;
+
+use ModulePHP\Database\DB as DB;
+use ModulePHP\Database\Select as Select;
+use ModulePHP\Database\Insert as Insert;
 
 use Exception;
 
-class User {
+class User
+{
     public $id;
     public $userlevel;
     public $ip;
 
-    function __construct() {
-        
-    }
-    
-    static function login($username){
+    static function login($username)
+    {
         $username = DB::escape($username);
         $sessionid = DB::escape(session_id());
         $ip = DB::escape(User::capture_userip());
 
         if (!$username || !$sessionid || !$ip) {
-            throw new Exception("Erro ao construir sessão ou identificar IP!");
+            throw new Exception("Error building session or identifying IP!");
             return false;
         }
 
@@ -33,9 +33,9 @@ class User {
         $select->limit = 1;
 
         $id = $select->result()[0]["id"];
-        
-        if(!$id){
-            throw new Exception("Usuário inexistente!");
+
+        if (!$id) {
+            throw new Exception("Non-existent user!");
             return False;
         }
 
@@ -51,14 +51,24 @@ class User {
         ]);
 
         if (!$insert->execute()) {
-            throw new Exception("Erro ao efetuar login!");
+            throw new Exception("Database error!");
         }
 
         $_SESSION["userID"] = $id;
         return True;
     }
 
-    static function auth(){
+    static function logout()
+    {
+        if (session_id()) {
+            session_destroy();
+        }
+        header("location: /");
+        exit();
+    }
+
+    static function auth()
+    {
         if (isset($_SESSION["userID"])) {
             $id = DB::escape($_SESSION["userID"]);
             $sessionid = DB::escape(session_id());
@@ -75,25 +85,26 @@ class User {
                     ["Sessions.PHPsession_id", $sessionid],
                     ["Sessions.UserIP", $ip]
                 ]);
-                
+
                 if ($result = $select->result()) {
                     return (object) array(
-                        "id"=> $id,
-                        "userlevel"=> $result[0]["userlevel"]
+                        "id" => $id,
+                        "userlevel" => $result[0]["userlevel"]
                     );
                 }
             }
         }
         return (object) array(
-            "id"=> 0,
-            "userlevel"=> "public"
+            "id" => 0,
+            "userlevel" => "public"
         );
     }
 
-    static function capture_userip() {
+    static function capture_userip()
+    {
         $ip = $_SERVER['REMOTE_ADDR'];
         if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && preg_match_all('#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s', $_SERVER['HTTP_X_FORWARDED_FOR'], $matches)) {
-            foreach ($matches[0] AS $xip) {
+            foreach ($matches[0] as $xip) {
                 if (!preg_match('#^(10|172\.16|192\.168)\.#', $xip)) {
                     $ip = $xip;
                     break;
@@ -105,9 +116,9 @@ class User {
             $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
         } elseif (isset($_SERVER['HTTP_X_REAL_IP']) && preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/', $_SERVER['HTTP_X_REAL_IP'])) {
             $ip = $_SERVER['HTTP_X_REAL_IP'];
+        } else {
+            $ip = false;
         }
         return $ip;
     }
-
-    
 }

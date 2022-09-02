@@ -38,10 +38,6 @@ class Metatag
                 $html .= $content;
             }
         }
-        if ($this->title) {
-            $site_name = SITE_NAME;
-            $html .= "<title>$this->title - {$site_name}</title>";
-        }
 
         return $html;
     }

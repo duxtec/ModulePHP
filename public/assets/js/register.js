@@ -1,11 +1,11 @@
-class Cadastro {
-    constructor(){
-        this.datatitle = "cadastro";
-        this.dataname = "cadastro";
+class Register {
+    constructor() {
+        this.datatitle = "Register";
+        this.dataname = "register";
         this.urlinsert = `/controller/insert/${this.dataname}`;
     }
 
-    alert(alert, icon = "info", callback = console.log("")){
+    alert(alert, icon = "info", callback = console.log("")) {
         if (alert) {
             this.alertText = alert;
         }
@@ -19,19 +19,19 @@ class Cadastro {
         })
     }
 
-    async enviar(){
+    async send() {
         let form = new FormData(document.querySelector(`form#${this.dataname}`));
-        const response = await fetch(this.urlinsert,{
-            method:"POST",body:form
+        const response = await fetch(this.urlinsert, {
+            method: "POST", body: form
         })
         const result = await response.json();
 
         if (result.success) {
-            this.alert(result.status, "success", function(){window.location.href = "/"});;
+            this.alert(result.status, "success", function () { window.location.href = "/" });;
         } else {
             this.alert(result.status, "error");
         }
     }
 }
 
-var cadastro = new Cadastro;
+var register = new Register;

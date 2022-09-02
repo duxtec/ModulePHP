@@ -4,8 +4,7 @@ namespace ModulePHP;
 
 use ErrorException;
 use Error;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
+use ModulePHP\Error as MError;
 
 //Sets the default include path.
 set_include_path("../");
@@ -19,22 +18,15 @@ require_once("resources/class/mvc.php");
 //Load system settings.
 require_once("config/global.php");
 
-#Turning errors into exceptions.
-if (DEBUG) {
-    set_error_handler(function ($errno, $errstr, $errfile, $errline) {
-        if (0 === error_reporting()) {
-            return false;
-        }
+//Load website settings.
+@include_once("config/website.php");
 
-        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-    });
-}
+//Load pré actions.
+require_once("resources/class/preactions.php");
 
 try {
-    //Load website settings.
-    require_once("config/website.php");
-
     //Loads system resources.
+    MVC::Resource("error");
     MVC::Resource("database/db");
     MVC::Resource("database/select");
     MVC::Resource("database/insert");
@@ -64,7 +56,6 @@ try {
 
     define("CONTENT", $M["Route"]->content);
 
-
     //Abre a página ou arquivo requisitado.
     try {
         switch ($M["Route"]->type) {
@@ -78,25 +69,10 @@ try {
                 break;
         }
     } catch (ErrorException $e) {
-        $log = new Logger("Kernel");
-        $datetime = date("Y-m-d");
-        $log->pushHandler(new StreamHandler("../logs/$datetime.log", Logger::WARNING));
-        $log->warning("{$e->getMessage()} IN {$e->getFile()} IN line {$e->getLine()}");
-
-        echo "<h1>Sistema indisponível<h1>";
+        MError::warning("{$e->getMessage()} IN {$e->getFile()} IN line {$e->getLine()}");
     }
 } catch (ErrorException $e) {
-    $log = new Logger("Kernel");
-    $datetime = date("Y-m-d");
-    $log->pushHandler(new StreamHandler("../logs/$datetime.log", Logger::WARNING));
-    $log->warning("{$e->getMessage()} IN {$e->getFile()} IN line {$e->getLine()}");
-
-    echo "<h1>Sistema indisponível<h1>";
+    MError::warning("{$e->getMessage()} IN {$e->getFile()} IN line {$e->getLine()}");
 } catch (Error $e) {
-    $log = new Logger("Kernel");
-    $datetime = date("Y-m-d");
-    $log->pushHandler(new StreamHandler("../logs/$datetime.log", Logger::EMERGENCY));
-    $log->emergency("{$e->getMessage()} IN {$e->getFile()} IN line {$e->getLine()}");
-
-    echo "<h1>Sistema indisponível<h1>";
+    MError::emergency("{$e->getMessage()} IN {$e->getFile()} IN line {$e->getLine()}");
 }

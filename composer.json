@@ -10,18 +10,18 @@
   ],
   "license": "GPL-3.0-only",
   "require": {
-    "php": ">=7.4",
+    "php": "^7.2 || ^8.0",
     "ext-mbstring": "*",
     "ext-openssl": "*",
-    "monolog/monolog": "^2.6",
+    "psr/log": "1.1.4",
+    "monolog/monolog": "2.8",
     "nesbot/carbon": "^2.59",
     "phpmailer/phpmailer": "^6.4",
     "respect/validation": "^2.2"
   },
   "require-dev": {
     "fakerphp/faker": "^1.19",
-    "mockery/mockery": "^1.4.2",
-    "phpunit/phpunit": "^9.3.3"
+    "mockery/mockery": "^1.4.2"
   },
   "config": {
     "optimize-autoloader": true,

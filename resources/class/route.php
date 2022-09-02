@@ -20,6 +20,7 @@ class Route
 
     function typeconfig()
     {
+        $publicfolder = PUBLIC_FOLDER;
         $path_array = explode("/", $this->path);
         switch ($path_array[0]) {
             case 'controller':
@@ -41,11 +42,11 @@ class Route
                         break;
 
                     default:
-                        header("Content-type:" . @mime_content_type("../public_html/$this->path"));
+                        header("Content-type:" . @mime_content_type("../$publicfolder/$this->path"));
                         break;
                 }
                 $this->type =  "assets";
-                $this->path =  "public_html/$this->path";
+                $this->path =  "$publicfolder/$this->path";
                 break;
 
             default:
@@ -79,24 +80,33 @@ class Route
     function open()
     {
         global $M;
-        if (!$result = is_file($this->path)) {
+        if (!$result = stream_resolve_include_path($this->path)) {
+            $this->path = preg_replace('/public/', "global", $this->path, 1);
             if ($this->type == "page") {
-                if (!@$result = stream_resolve_include_path($this->path)) {
+                if (!$result = stream_resolve_include_path($this->path)) {
+                    if ($this->path == "app/global/view/pages/logout.php") {
+                        User::logout();
+                    }
+                    var_dump($this->path);
                     $this->path = "app/$this->userlevel/view/pages/404.php";
-                    if (!@$result = stream_resolve_include_path($this->path)) {
-                        $this->path = "app/unlogged/view/pages/404.php";
-                        if (!@$result = stream_resolve_include_path($this->path)) {
-                            $this->content = "<h1>Página Inexistente!</h1>";
-                            return $this->content;
+                    if (!$result = stream_resolve_include_path($this->path)) {
+                        $this->path = "app/$this->userlevel/view/pages/404.php";
+                        if (!$result = stream_resolve_include_path($this->path)) {
+                            $this->path = "app/global/view/pages/404.php";
+                            if (!$result = stream_resolve_include_path($this->path)) {
+                                $message = PAGE_NOT_FOUND_MESSAGE;
+                                $this->content = "<h1>$message</h1>";
+                                return $this->content;
+                            }
                         }
                     }
                 }
             } else {
                 $this->content = array(
                     'success' => false,
-                    'status' => 'Arquivo inexistente ou login expirado, tente efetuar login novamente!'
+                    'status' => FILE_NOT_FOUND_MESSAGE
                 );
-                return MVC::JsonResponse($this->content);
+                return MVC::JsonResponse($this->content, false);
             }
         }
 

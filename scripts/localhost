@@ -21,5 +21,5 @@ if ($r) {
     $r = dirname(dirname(__FILE__)) . "/public";
 }
 
-$exec = "php -S $h:$p -t $r";
+$exec = "php -S $h:$p -t \"$r\"";
 shell_exec($exec);

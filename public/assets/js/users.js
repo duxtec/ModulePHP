@@ -1,25 +1,25 @@
-class Usuários {
-    constructor(tableselector){
-        this.dataname = "usuários";
+class Users {
+    constructor(tableselector) {
+        this.dataname = "User";
         this.tableselector = tableselector;
-        this.urlselect = '/controller/select/usuarios';
-        this.urlinsert = '/controller/insert/usuarios';
-        this.urlupdate = '/controller/update/usuario';
-        this.urldelete = '/controller/delete/usuario';
+        this.urlselect = '/controller/select/users';
+        this.urlinsert = '/controller/insert/users';
+        this.urlupdate = '/controller/update/users';
+        this.urldelete = '/controller/delete/users';
 
         this.exec();
     }
 
-    async exec(){
+    async exec() {
         await this.loadDatas();
         this.renderTable();
     }
 
-    async loadDatas(){ 
+    async loadDatas() {
         this.tabledata
         this.tabledata = await fetch(this.urlselect)
-        .then(res => res.json())
-        .then(data => data);
+            .then(res => res.json())
+            .then(data => data);
 
         this.secundarydata = {
             "userlevels": {
@@ -30,126 +30,120 @@ class Usuários {
 
         Object.entries(this.secundarydata).forEach(async value => {
             this.secundarydata[value[0]].select = await fetch(this.secundarydata[value[0]].urlselect)
-            .then(res => res.json())
-            .then(data => data.select);
+                .then(res => res.json())
+                .then(data => data.select);
         })
     }
     renderTable() {
         if (this.tabledata["success"]) {
             this.table = new Tabulator(this.tableselector, {
-                ajaxResponse:function(url, params, response){
+                ajaxResponse: function (url, params, response) {
                     return response.select;
                 },
-                rowFormatter:function(row){
-                
+                rowFormatter: function (row) {
+
                     var data = row.getData();
-                
-                    if(data.Habilitado == 1){
+
+                    if (data.enabled == 1) {
                         row.getElement().style.backgroundColor = "#8F8";
                     } else {
                         row.getElement().style.backgroundColor = "#F88";
                     }
                 },
-                data:this.tabledata.select, 
+                data: this.tabledata.select,
                 columns: [
                     {
-                        title:"ID", field:"ID", sorter:"number", download:true
+                        title: "ID", field: "ID", sorter: "number", download: true
                     },
                     {
-                        title:"Nome", field:"Nome", visible:false, download:true
+                        title: "Name", field: "Name", visible: false, download: true
                     },
                     {
-                        title:"Usuário", field:"Usuário", download:true
+                        title: "Username", field: "Username", download: true
                     },
                     {
-                        title:"E-mail", field:"E-mail", visible:false, download:true
+                        title: "E-mail", field: "E-mail", visible: false, download: true
                     },
                     {
-                        title:"CPF", field:"CPF", visible:false, download:true
+                        title: "Userlevel", field: "Userlevel", download: true
                     },
                     {
-                        title:"Telefone", field:"Telefone", visible:false, download:true
-                    },
-                    {
-                        title:"Nível de acesso", field:"Nível de acesso", download:true
-                    },
-                    {
-                        title:"Habilitado", field:"Habilitado", formatter:"tickCross", download:true
+                        title: "Enabled", field: "Enabled", formatter: "tickCross", download: true
                     },
                 ],
-                
-                addRowPos:"top",
-                history:true,  
-                pagination:"local",
-                paginationSize:10,
-                paginationCounter:"rows",
-                movableColumns:false,
-                resizableRows:false,
-                autoColumns:false,
-                initialSort:[
-                    {column:"ID", dir:"desc"},
+
+                addRowPos: "top",
+                history: true,
+                pagination: "local",
+                paginationSize: 10,
+                paginationCounter: "rows",
+                movableColumns: false,
+                resizableRows: false,
+                autoColumns: false,
+                initialSort: [
+                    { column: "ID", dir: "desc" },
                 ],
-                footerElement:`
+                footerElement: `
                 <div class="buttonsoptions">
-                    <button onclick="usuario.add()" class="button button2">
+                    <button onclick="user.add()" class="button button2">
                         <i class="fa fa-plus"></i>
                     </button>
-                    <button onclick="usuario.download()" class="button button2">
+                    <button onclick="user.download()" class="button button2">
                         <i class="fa fa-download"></i>
                     </button>
                 </div>
                 `.trim(),
-                locale:true,
-                langs:{
-                    "default":{
-                        "pagination":{
-                            "counter":{
-                                "showing": "Mostrando",
-                                "of": "de",
-                                "rows": "linhas",
-                                "pages": "páginas",
+                locale: true,
+                langs: {
+                    "default": {
+                        "pagination": {
+                            "counter": {
+                                "showing": "Showing",
+                                "of": "of",
+                                "rows": "rows",
+                                "pages": "pages",
                             },
-                            "first": "Primeira",
-                            "prev": "Voltar",
-                            "next": "Avançar",
-                            "last": "última",
+                            "first": "First",
+                            "prev": "Prev",
+                            "next": "Next",
+                            "last": "Last",
                         },
                     }
                 },
 
             });
             let mainclass = this;
-            
-            this.table.on("rowClick", function(e, row){
+
+            this.table.on("rowClick", function (e, row) {
 
                 let data = row.getData();
                 let htmlmodal = `<form id="update">`;
-        
+
                 Object.entries(data).forEach(value => {
-                    if(["ID"].includes(value[0])) {
+                    if (["ID"].includes(value[0])) {
                         htmlmodal += `
                         <div class='container-label-input' style="display:none">
                             <label for='${value[0]}'>${value[0]}</label>
                             <input name='${value[0]}' type='hidden' value='${value[1]}' readonly/>
                         </div>
                         `;
-                    } else if(["Nível de acesso"].includes(value[0])){
-                       htmlmodal += `
+                    } else if (["Nível de acesso"].includes(value[0])) {
+                        htmlmodal += `
                        <div class='container-label-input'>
                             <label for='${value[0]}'>${value[0]}</label>
                             <select name='${value[0]}' type='text' value='${value[1]}'>
                                 <option value=''>${value[1]}</option>
                                 ${mainclass.secundarydata.userlevels.select.map(userlevel => {
-                                    return `<option value='${userlevel.ID}'>${userlevel.Nome}</option>`
-                                })}
+                            return `<option value='${userlevel.ID}'>${userlevel.Nome}</option>`
+                        })}
                             </select>
                         </div>
                        `;
-                    } else if(["Habilitado"].includes(value[0])){
-                       htmlmodal += `
+                    } else if (["Enabled"].includes(value[0])) {
+                        htmlmodal += `
                        <div class='container-label-input'>
                             <label for='${value[0]}'>${value[0]}</label>
-                            <input name='${value[0]}' type='checkbox' ${value[1]==1?"checked": ""}/>
+                            <input name='${value[0]}' type='checkbox' ${value[1] == 1 ? "checked" : ""}/>
                         </div>
                        `;
                     } else {
@@ -162,44 +156,44 @@ class Usuários {
                     }
                 });
                 htmlmodal += `</form>`;
-        
+
                 // console.log(this)
                 // var tableElement = this
                 Swal.fire({
-                    title: `<strong>Visualização de ${mainclass.dataname}</strong>`,
+                    title: `<strong>${mainclass.dataname} View</strong>`,
                     html: htmlmodal,
                     showCloseButton: true,
                     showCancelButton: true,
                     focusConfirm: false,
                     confirmButtonText:
-                    'Atualizar',
-                    confirmButtonAriaLabel: 'Thumbs up, great!',
+                        'Save',
+                    confirmButtonAriaLabel: 'Save',
                     cancelButtonText:
-                    'Excluir',
-                    cancelButtonAriaLabel: 'Thumbs down',
-                }).then(async(result) => {
+                        'Delete',
+                    cancelButtonAriaLabel: 'Delete',
+                }).then(async (result) => {
                     if (result.isConfirmed) {
-        
+
                         var form = new FormData(document.querySelector("form#update"));
                         console.log(form);
-        
+
                         let response = await fetch(mainclass.urlupdate, {
                             method: 'POST',
                             body: form
                         })
-                        .then(res => res.json())
-                        .then(data => data);
-        
+                            .then(res => res.json())
+                            .then(data => data);
+
                         if (response.success) {
-                            usuario.table.replaceData(mainclass.urlselect) 
+                            usuario.table.replaceData(mainclass.urlselect)
                             Swal.fire(
-                                'Sucesso!',
-                                'Atualização efetuada com sucesso.',
+                                'Sucess!',
+                                `${mainclass.dataname} saved successfully.`,
                                 'success'
                             )
                         } else {
                             Swal.fire(
-                                'Erro!',
+                                'Error!',
                                 response.status,
                                 'error'
                             )
@@ -210,24 +204,24 @@ class Usuários {
                     ) {
                         var form = new FormData(document.querySelector("form#update"));
                         console.log(form);
-        
+
                         let response = await fetch(mainclass.urldelete, {
                             method: 'POST',
                             body: form
                         })
-                        .then(res => res.json())
-                        .then(data => data);
-        
+                            .then(res => res.json())
+                            .then(data => data);
+
                         if (response.success) {
                             row.delete();
                             Swal.fire(
-                                'Sucesso!',
-                                'Exclusão efetuada com sucesso.',
+                                'Success!',
+                                `${mainclass.dataname} deleted successfully.`,
                                 'success'
                             )
                         } else {
                             Swal.fire(
-                                'Erro!',
+                                'Error!',
                                 response.status,
                                 'error'
                             )
@@ -237,10 +231,10 @@ class Usuários {
             });
         } else {
             document.querySelector(this.tableselector).innerHTML = this.tabledata.status;
-        }     
+        }
     }
 
-    add(){
+    add() {
         let data = this.table.getColumnDefinitions();
         console.log(data);
 
@@ -248,20 +242,20 @@ class Usuários {
 
         data.forEach(value => {
             value = value.field;
-            if(["ID"].includes(value)) {
+            if (["ID"].includes(value)) {
 
-            } else if(["Nível de acesso"].includes(value)){
+            } else if (["Userlevel"].includes(value)) {
                 htmlmodal += `
                 <div class='container-label-input'>
                     <label for='${value}'>${value}</label>
                     <select name='${value}' type='text' value='2'>
                         ${this.secundarydata.userlevels.select.map(userlevel => {
-                            return `<option value='${userlevel.ID}' ${userlevel.ID==2?"selected":""}>${userlevel.Nome}</option>`
-                        })}
+                    return `<option value='${userlevel.ID}' ${userlevel.ID == 2 ? "selected" : ""}>${userlevel.Nome}</option>`
+                })}
                     </select>
                 </div>
                 `;
-            } else if(["Habilitado"].includes(value)){
+            } else if (["Enabled"].includes(value)) {
                 htmlmodal += `
                 <div class='container-label-input'>
                      <label for='${value}'>${value}</label>
@@ -282,18 +276,18 @@ class Usuários {
         let mainclass = this;
 
         Swal.fire({
-            title: `<strong>Adicionar ${mainclass.dataname}</strong>`,
+            title: `<strong>Add ${mainclass.dataname}</strong>`,
             html: htmlmodal,
             showCloseButton: true,
             showCancelButton: true,
             focusConfirm: false,
             confirmButtonText:
-            'Inserir',
-            confirmButtonAriaLabel: 'Thumbs up, great!',
+                'Add',
+            confirmButtonAriaLabel: 'Add',
             cancelButtonText:
-            'Cancelar',
-            cancelButtonAriaLabel: 'Thumbs down',
-        }).then(async(result) => {
+                'Cancel',
+            cancelButtonAriaLabel: 'Cancel',
+        }).then(async (result) => {
             if (result.isConfirmed) {
                 var form = new FormData(document.querySelector("form#insert"));
                 console.log(form);
@@ -302,19 +296,19 @@ class Usuários {
                     method: 'POST',
                     body: form
                 })
-                .then(res => res.json())
-                .then(data => data);
+                    .then(res => res.json())
+                    .then(data => data);
 
                 if (response.success) {
-                    mainclass.table.replaceData(mainclass.urlselect) 
+                    mainclass.table.replaceData(mainclass.urlselect)
                     Swal.fire(
-                        'Sucesso!',
-                        'Inserção efetuada com sucesso.',
+                        'Sucess!',
+                        `${mainclass.dataname} inserted successfully`,
                         'success'
                     )
                 } else {
                     Swal.fire(
-                        'Erro!',
+                        'Error!',
                         response.status,
                         'error'
                     )
@@ -323,9 +317,9 @@ class Usuários {
         })
     }
 
-    download(){
-        this.table.download("xlsx", "usuario.xlsx", {sheetName:"Crachás"});
+    download() {
+        this.table.download("xlsx", "users.xlsx", { sheetName: "Users" });
     }
 }
 
-var usuario = new Usuários("#usuarios");
+var users = new users("#users");

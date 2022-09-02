@@ -17,3 +17,8 @@ $M["Config"] = array_merge(
     parse_ini_file("config/mail.env"),
     parse_ini_file("config/ldap.env")
 );
+
+const PUBLIC_FOLDER = "public";
+const UNAVAILABLE_MESSAGE = "System Unavailable";
+const PAGE_NOT_FOUND_MESSAGE = "Page Not Found";
+const FILE_NOT_FOUND_MESSAGE = "File Not Found";
