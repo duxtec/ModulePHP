@@ -1,0 +1,71 @@
+@import "../main.css";
+
+* {
+  color: var(--darkcolor0-1);
+}
+
+html,
+body {
+  background: var(--lightcolor2-1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--lightcolor1-5);
+}
+
+a {
+  color: var(--brightcolor1-1-2);
+}
+
+button.button1,
+form input,
+form input[type="date"],
+form textarea,
+form button,
+form select,
+button.button {
+  border: 1px solid var(--lightcolor0-1);
+  background: var(--darkcolor0-1);
+  color: var(--lightcolor0-1);
+}
+
+form input,
+form input[type="date"] {
+  background: var(--darkcolor0-1);
+}
+
+option {
+  background: var(--darkcolor0-1);
+  color: var(--brightcolor1-1);
+}
+
+::placeholder {
+  color: var(--lightcolor0-1);
+}
+
+:-ms-input-placeholder {
+  color: var(--lightcolor0-1);
+}
+
+::-ms-input-placeholder {
+  color: var(--lightcolor0-1);
+}
+
+form button,
+button.button,
+button.button1 {
+  background: var(--lightcolor1-2);
+  color: var(--darkcolor0-1);
+}
+
+form button:hover,
+form button.button:hover,
+button.button1:hover {
+  background: var(--brightcolor1-1);
+  color: var(--darkcolor0-1);
+}

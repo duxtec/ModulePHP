@@ -1,0 +1,38 @@
+:root {
+--darkcolor0-1: #000;
+--darkcolor1-1: #001;
+--darkcolor2-1: #110;
+--darkcolor1-2: #003;
+--darkcolor2-2: #320;
+--darkcolor1-3: #004;
+--darkcolor2-3: #430;
+--darkcolor1-4: #115;
+--darkcolor2-4: #630;
+--darkcolor1-5: #226;
+--darkcolor2-5: #740;
+
+--lightcolor0-1: #FFF;
+--lightcolor1-1: #eef;
+--lightcolor2-1: #fee;
+--lightcolor1-2: #ccf;
+--lightcolor2-2: #fec;
+--lightcolor1-3: #bbf;
+--lightcolor2-3: #fdb;
+--lightcolor1-4: #aae;
+--lightcolor2-4: #fc9;
+--lightcolor1-5: #99d;
+--lightcolor2-5: #fc8;
+
+--brightcolor1-1: #00f;
+--brightcolor2-1: #f90;
+--brightcolor1-2: #11e;
+--brightcolor2-2: #e81;
+--brightcolor1-3: #22d;
+--brightcolor2-3: #d82;
+--brightcolor1-4: #34c;
+--brightcolor2-4: #c83;
+--brightcolor1-5: #55b;
+--brightcolor2-5: #b85;
+
+--boxshadow1: 0 0 10px 2px rgb(0 0 0 / 0.3)
+}

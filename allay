@@ -1,0 +1,95 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . "/resources/Config/Autoload.php";
+
+use Resources\Utils\Shell;
+
+// Get all command line options
+$args = Shell::getAllOptions();
+
+// Check if verbose mode is enabled
+$verboseMode = Shell::isVerboseMode();
+
+if ($verboseMode) {
+    // Enable error reporting in verbose mode
+    error_reporting(E_ALL);
+} else {
+    // Disable error reporting otherwise
+    error_reporting(0);
+}
+
+// Remove unnecessary elements from $args array
+$unwantedArgs = ["php", "allay", "-v", "--verbose"];
+$argv = array_values(array_diff($argv, $unwantedArgs));
+
+$args = Shell::getAllOptions();
+
+// Get the default script name from command line options
+$action = $args["default"];
+
+// Check if a script name was provided as an argument
+if ($action) {
+    $index = array_search($action, $argv);
+    if ($index !== false) {
+        unset($argv[$index]);
+    }
+    $argv = array_values($argv);
+}
+
+// Execute the script
+execute_script($action);
+
+// Function to execute a PHP script with command line arguments
+function execute_script($action = null)
+{
+    global $menu, $argv;
+
+    if (!$action) {
+        $action = Shell::showMenu("Select an action", list_actions());
+    }
+    if ($action == "Exit") {
+        die();
+    }
+
+    // Close the menu if it's open
+    if ($menu) {
+        $menu->close();
+    }
+
+    // Check if the script file exists
+    $scriptFile = "scripts/$action.php";
+    if (file_exists($scriptFile)) {
+        // Include the script file
+        try {
+            require $scriptFile;
+        } catch (\Throwable $th) {
+            die(Shell::printError($th->getTraceAsString()));
+        }
+    } else {
+        // Show error message if script file not found
+        Shell::printError("Script not found: $action\n");
+        execute_script();
+    }
+    system('stty cbreak');
+    Shell::printInfo("Press any key to continue...");
+    fgetc(STDIN);
+    system('stty -cbreak');
+    Shell::clear();
+    execute_script();
+}
+
+// Function to list available actions based on scripts in 'scripts' folder
+function list_actions()
+{
+    $actions = [];
+    $files = glob("scripts/*");
+    foreach ($files as $file) {
+        if (is_file($file)) {
+            // Get the action name from script file name
+            $action = pathinfo($file, PATHINFO_FILENAME);
+            $actions[] = $action;
+        }
+    }
+    return $actions;
+}

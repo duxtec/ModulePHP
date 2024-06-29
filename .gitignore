@@ -1,7 +1,12 @@
 /vendor
+/config/*.env
+resources/frontend/node_modules
 .env
 .env.bak
-/config/*.env
 .phpunit.result.cache
-/logs/*
+/logs/errors/*
+!/logs/errors/.gitkeep
+/logs/lighthouse/*
+!/logs/lighthouse/.gitkeep
 /.vscode
+/app/*/assets/build/*

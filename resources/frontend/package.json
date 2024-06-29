@@ -1,0 +1,26 @@
+{
+  "name": "modulephp",
+  "version": "1.0.0",
+  "description": "<p align=\"center\"><a href=\"https://modulephp.com\" target=\"_blank\"><img src=\"https://modulephp.com/assets/img/logo.webp\" width=\"400\"></a></p> <p align=\"center\"> <a href=\"https://packagist.org/packages/duxtec/modulephp\"><img src=\"https://img.shields.io/packagist/dt/duxtec/modulephp\" alt=\"Total Downloads\"></a> <a href=\"https://packagist.org/packages/duxtec/modulephp\"><img src=\"https://img.shields.io/packagist/v/duxtec/modulephp\" alt=\"Latest Stable Version\"></a> <a href=\"https://packagist.org/packages/duxtec/modulephp\"><img src=\"https://img.shields.io/packagist/l/modulephp/framework\" alt=\"License\"></a> </p>",
+  "main": "index.js",
+  "type": "module",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "cd resources/frontend",
+    "postinstall": "cd ../..",
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lighthouse": "^11.4.0"
+  },
+  "dependencies": {
+    "fluent-ffmpeg": "^2.1.2",
+    "sharp": "^0.33.2"
+  }
+}
