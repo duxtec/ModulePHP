@@ -42,6 +42,12 @@ class Asset
         }
     }
 
+    public static function js($name = false, $defer = false)
+    {
+        $url = self::url($name);
+        return "<script src=\"$url\" " . ($defer ? "defer" : "") . "></script>";
+    }
+
     public static function path($url = false)
     {
         if (!$url) {
